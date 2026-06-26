@@ -1,0 +1,210 @@
+/* ------------------------------------------------------------------ */
+/* Hero v2                                                             */
+/* ------------------------------------------------------------------ */
+
+.hero-v2 {
+    padding: 4.5rem 2rem 5rem;
+    text-align: center;
+    background: #fff;
+}
+
+.hero-v2-inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Badge */
+
+.hero-v2-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #e6f4ec;
+    border: 1px solid #b8d9c4;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 1.1rem;
+    border-radius: 999px;
+    margin-bottom: 2rem;
+}
+
+.hero-v2-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+
+/* Title */
+
+.hero-v2-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.hero-v2-title-accent {
+    color: var(--accent);
+}
+
+/* Subtitle */
+
+.hero-v2-subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+}
+
+/* Buttons */
+
+.hero-v2-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+}
+
+.hero-v2-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s;
+    text-decoration: none;
+}
+
+.hero-v2-btn:hover {
+    background: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Mock dashboard                                                      */
+/* ------------------------------------------------------------------ */
+
+.mock-dash {
+    background: #f0efed;
+    border: 1px solid #e0ddd8;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.mock-dash-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.9rem 1.25rem;
+}
+
+.mock-dash-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.mock-dash-dot-red    { background: #ff5f57; }
+.mock-dash-dot-yellow { background: #febc2e; }
+.mock-dash-dot-green  { background: #28c840; }
+
+.mock-dash-body {
+    padding: 0 1rem 1.25rem;
+}
+
+/* Stat cards */
+
+.mock-dash-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.mock-dash-stat {
+    background: #fff;
+    border: 1px solid #e4e1da;
+    border-radius: var(--radius-md);
+    padding: 1rem 1.1rem;
+}
+
+.mock-dash-stat-label {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.35rem;
+}
+
+.mock-dash-stat-value {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 0.3rem;
+}
+
+.mock-dash-stat-plain {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.mock-dash-stat-sub {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.mock-dash-sub-danger { color: var(--danger); }
+.mock-dash-sub-accent { color: var(--accent); }
+.mock-dash-sub-muted  { color: var(--ink-muted); }
+
+/* Bar chart */
+
+.mock-dash-chart {
+    background: #fff;
+    border: 1px solid #e4e1da;
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.mock-dash-bar-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.mock-dash-bar-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-align: right;
+}
+
+.mock-dash-bar-track {
+    height: 10px;
+    background: #e8e6e2;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.mock-dash-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+}
+
+.mock-dash-bar-food   { background: #d4890e; }
+.mock-dash-bar-travel { background: #4a8fd4; }
+.mock-dash-bar-bills  { background: #7a5cbf; }
