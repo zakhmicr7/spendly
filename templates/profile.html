@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — Spendly{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% set cat_icons = {
+    'Food':          'utensils',
+    'Transport':     'car',
+    'Bills':         'zap',
+    'Health':        'heart-pulse',
+    'Entertainment': 'film',
+    'Shopping':      'shopping-bag',
+    'Other':         'more-horizontal'
+} %}
+
+<section class="profile-section">
+    <div class="profile-inner">
+
+        <div class="profile-page-header">
+            <h1 class="profile-page-title">My Profile</h1>
+            <p class="profile-page-sub">Your account details and spending at a glance</p>
+        </div>
+
+        <div class="profile-grid">
+
+            <!-- Left: identity card -->
+            <div class="profile-card identity-card">
+                <div class="profile-avatar">{{ user['name'][0] | upper }}</div>
+                <h2 class="profile-name">{{ user['name'] }}</h2>
+                <p class="profile-meta">{{ user['email'] }}</p>
+                <div class="profile-divider"></div>
+                <div class="profile-since">
+                    <i data-lucide="calendar"></i>
+                    <span>Member since {{ user['created_at'][:10] }}</span>
+                </div>
+            </div>
+
+            <!-- Right: spending summary card -->
+            <div class="profile-card summary-card">
+                <h3 class="summary-card-title">Spending Summary</h3>
+
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <span class="summary-stat-label">Total expenses logged</span>
+                        <span class="summary-stat-value">{{ summary['total_count'] }}</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="summary-stat-label">Total amount spent</span>
+                        <span class="summary-stat-value">₹{{ "%.2f" | format(summary['total_amount']) }}</span>
+                    </div>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <h4 class="cat-section-title">By Category</h4>
+
+                {% if summary['by_category'] %}
+                <ul class="cat-list">
+                    {% for row in summary['by_category'] %}
+                    {% if summary['total_amount'] > 0 %}
+                        {% set bar_width = (row['total'] / summary['total_amount'] * 100) | round | int %}
+                    {% else %}
+                        {% set bar_width = 0 %}
+                    {% endif %}
+                    <li class="cat-row">
+                        <div class="cat-label">
+                            <span class="cat-icon"><i data-lucide="{{ cat_icons.get(row['category'], 'circle') }}"></i></span>
+                            <span class="cat-name">{{ row['category'] }}</span>
+                        </div>
+                        <div class="cat-bar-track">
+                            <div class="cat-bar" style="width: {{ bar_width }}%"></div>
+                        </div>
+                        <span class="cat-amount">₹{{ "%.2f" | format(row['total']) }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="empty-state">
+                    <i data-lucide="inbox"></i>
+                    <p>No expenses yet.</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+{% endblock %}
