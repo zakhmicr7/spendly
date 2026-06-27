@@ -105,20 +105,32 @@ def get_user_by_id(user_id):
         conn.close()
 
 
-def get_expense_summary(user_id):
+def get_expense_summary(user_id, start_date=None, end_date=None):
+    # conditions contains only hardcoded SQL fragments — user values go in params only
+    conditions = ['user_id = ?']
+    params = [user_id]
+    if start_date:
+        conditions.append('date >= ?')
+        params.append(start_date)
+    if end_date:
+        conditions.append('date <= ?')
+        params.append(end_date)
+
+    where = ' WHERE ' + ' AND '.join(conditions)
+
     conn = get_db()
     try:
         totals = conn.execute(
-            '''SELECT COUNT(*) AS total_count,
-                      COALESCE(SUM(amount), 0) AS total_amount
-               FROM expenses WHERE user_id = ?''',
-            (user_id,)
+            'SELECT COUNT(*) AS total_count,'
+            ' COALESCE(SUM(amount), 0) AS total_amount'
+            ' FROM expenses' + where,
+            params
         ).fetchone()
         by_category = conn.execute(
-            '''SELECT category, COUNT(*) AS count, SUM(amount) AS total
-               FROM expenses WHERE user_id = ?
-               GROUP BY category ORDER BY total DESC''',
-            (user_id,)
+            'SELECT category, COUNT(*) AS count, SUM(amount) AS total'
+            ' FROM expenses' + where +
+            ' GROUP BY category ORDER BY total DESC',
+            params
         ).fetchall()
         return {
             'total_count': totals['total_count'],

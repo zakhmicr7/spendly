@@ -44,6 +44,35 @@
             <div class="profile-card summary-card">
                 <h3 class="summary-card-title">Spending Summary</h3>
 
+                <form class="date-filter-form" method="GET" action="{{ url_for('profile') }}">
+                    <div class="date-filter-fields">
+                        <div class="date-filter-group">
+                            <label for="start_date">From</label>
+                            <input class="form-input" type="date" id="start_date"
+                                   name="start_date" value="{{ start_date or '' }}">
+                        </div>
+                        <div class="date-filter-group">
+                            <label for="end_date">To</label>
+                            <input class="form-input" type="date" id="end_date"
+                                   name="end_date" value="{{ end_date or '' }}">
+                        </div>
+                        <button class="btn-filter" type="submit">Filter</button>
+                    </div>
+                </form>
+
+                {% if start_date or end_date %}
+                <div class="filter-active-bar">
+                    <span class="filter-active-label">
+                        <i data-lucide="filter"></i>
+                        Filtered:
+                        {% if start_date and end_date %}{{ start_date }} – {{ end_date }}
+                        {% elif start_date %}from {{ start_date }}
+                        {% else %}up to {{ end_date }}{% endif %}
+                    </span>
+                    <a class="filter-clear-link" href="{{ url_for('profile') }}">Clear</a>
+                </div>
+                {% endif %}
+
                 <div class="summary-stats">
                     <div class="summary-stat">
                         <span class="summary-stat-label">Total expenses logged</span>
