@@ -93,3 +93,37 @@ def create_user(name, email, password):
         return cursor.lastrowid
     finally:
         conn.close()
+
+
+def get_user_by_id(user_id):
+    conn = get_db()
+    try:
+        return conn.execute(
+            'SELECT * FROM users WHERE id = ?', (user_id,)
+        ).fetchone()
+    finally:
+        conn.close()
+
+
+def get_expense_summary(user_id):
+    conn = get_db()
+    try:
+        totals = conn.execute(
+            '''SELECT COUNT(*) AS total_count,
+                      COALESCE(SUM(amount), 0) AS total_amount
+               FROM expenses WHERE user_id = ?''',
+            (user_id,)
+        ).fetchone()
+        by_category = conn.execute(
+            '''SELECT category, COUNT(*) AS count, SUM(amount) AS total
+               FROM expenses WHERE user_id = ?
+               GROUP BY category ORDER BY total DESC''',
+            (user_id,)
+        ).fetchall()
+        return {
+            'total_count': totals['total_count'],
+            'total_amount': totals['total_amount'],
+            'by_category': by_category,
+        }
+    finally:
+        conn.close()

@@ -1,0 +1,271 @@
+/* ------------------------------------------------------------------ */
+/* Profile page                                                        */
+/* ------------------------------------------------------------------ */
+
+.profile-section {
+    padding: 3rem 2rem 5rem;
+}
+
+.profile-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Page header                                                         */
+/* ------------------------------------------------------------------ */
+
+.profile-page-header {
+    margin-bottom: 2rem;
+}
+
+.profile-page-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.profile-page-sub {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Two-column grid                                                      */
+/* ------------------------------------------------------------------ */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* ------------------------------------------------------------------ */
+/* Cards                                                               */
+/* ------------------------------------------------------------------ */
+
+.profile-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+}
+
+.profile-divider {
+    border: none;
+    border-top: 1px solid var(--border-soft);
+    margin: 1.25rem 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Identity card                                                       */
+/* ------------------------------------------------------------------ */
+
+.identity-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.profile-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.profile-meta {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+}
+
+.profile-since {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: var(--ink-muted);
+}
+
+.profile-since svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Summary card                                                        */
+/* ------------------------------------------------------------------ */
+
+.summary-card-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+}
+
+.summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.summary-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.summary-stat:last-child {
+    border-bottom: none;
+}
+
+.summary-stat-label {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+}
+
+.summary-stat-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Category breakdown                                                  */
+/* ------------------------------------------------------------------ */
+
+.cat-section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+}
+
+.cat-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.cat-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 90px;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cat-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.cat-icon {
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.cat-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.cat-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cat-bar-track {
+    height: 6px;
+    background: var(--border-soft);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.cat-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.cat-amount {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state                                                         */
+/* ------------------------------------------------------------------ */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 0;
+    color: var(--ink-faint);
+    font-size: 0.875rem;
+}
+
+.empty-state svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cat-row {
+        grid-template-columns: 120px 1fr 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-section {
+        padding: 2rem 1rem 4rem;
+    }
+
+    .cat-row {
+        grid-template-columns: 100px 1fr 70px;
+    }
+}
