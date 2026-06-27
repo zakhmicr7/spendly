@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash
 from database.db import get_db, init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_expense_summary
@@ -6,9 +7,24 @@ from database.db import get_db, init_db, seed_db, create_user, get_user_by_email
 app = Flask(__name__)
 app.secret_key = 'dev-secret-key-change-in-production'
 
+
 with app.app_context():
     init_db()
     seed_db()
+
+
+# ------------------------------------------------------------------ #
+# Helpers                                                             #
+# ------------------------------------------------------------------ #
+
+def _parse_date(raw):
+    if not raw:
+        return None
+    try:
+        datetime.strptime(raw.strip(), '%Y-%m-%d')
+        return raw.strip()
+    except ValueError:
+        return None
 
 
 # ------------------------------------------------------------------ #
@@ -101,9 +117,17 @@ def logout():
 def profile():
     if not session.get('user_id'):
         return redirect(url_for('login'))
-    user    = get_user_by_id(session['user_id'])
-    summary = get_expense_summary(session['user_id'])
-    return render_template("profile.html", user=user, summary=summary)
+    user = get_user_by_id(session['user_id'])
+
+    start_date = _parse_date(request.args.get('start_date', ''))
+    end_date = _parse_date(request.args.get('end_date', ''))
+
+    if start_date and end_date and start_date > end_date:
+        start_date, end_date = end_date, start_date
+
+    summary = get_expense_summary(session['user_id'], start_date=start_date, end_date=end_date)
+    return render_template("profile.html", user=user, summary=summary,
+                           start_date=start_date, end_date=end_date)
 
 
 @app.route("/expenses/add")
