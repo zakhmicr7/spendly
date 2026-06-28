@@ -22,8 +22,11 @@
     <div class="profile-inner">
 
         <div class="profile-page-header">
-            <h1 class="profile-page-title">My Profile</h1>
-            <p class="profile-page-sub">Your account details and spending at a glance</p>
+            <div>
+                <h1 class="profile-page-title">My Profile</h1>
+                <p class="profile-page-sub">Your account details and spending at a glance</p>
+            </div>
+            <a href="{{ url_for('add_expense') }}" class="btn-add-expense">+ Add Expense</a>
         </div>
 
         <div class="profile-grid">
