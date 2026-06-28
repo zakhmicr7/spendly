@@ -1,8 +1,9 @@
+import math
 import sqlite3
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from werkzeug.security import check_password_hash
-from database.db import get_db, init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_expense_summary
+from database.db import get_db, init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_expense_summary, create_expense
 
 app = Flask(__name__)
 app.secret_key = 'dev-secret-key-change-in-production'
@@ -130,9 +131,48 @@ def profile():
                            start_date=start_date, end_date=end_date)
 
 
-@app.route("/expenses/add")
+VALID_CATEGORIES = {'Food', 'Transport', 'Bills', 'Health', 'Entertainment', 'Shopping', 'Other'}
+
+
+@app.route("/expenses/add", methods=["GET", "POST"])
 def add_expense():
-    return "Add expense — coming in Step 7"
+    if not session.get('user_id'):
+        if request.method == "POST":
+            abort(403)
+        return redirect(url_for('login'))
+
+    if request.method == "POST":
+        amount_raw  = request.form.get("amount", "").strip()
+        category    = request.form.get("category", "").strip()
+        date_raw    = request.form.get("date", "").strip()
+        description = request.form.get("description", "").strip()
+
+        try:
+            amount = float(amount_raw)
+            if not math.isfinite(amount) or amount <= 0:
+                raise ValueError
+        except ValueError:
+            flash("Amount must be a positive number.")
+            return render_template("add_expense.html", form=request.form, categories=VALID_CATEGORIES)
+
+        if category not in VALID_CATEGORIES:
+            flash("Please select a valid category.")
+            return render_template("add_expense.html", form=request.form, categories=VALID_CATEGORIES)
+
+        date = _parse_date(date_raw)
+        if not date:
+            flash("Please enter a valid date (YYYY-MM-DD).")
+            return render_template("add_expense.html", form=request.form, categories=VALID_CATEGORIES)
+
+        try:
+            create_expense(session['user_id'], amount, category, date, description or None)
+        except sqlite3.IntegrityError:
+            flash("Could not save expense. Please try again.")
+            return render_template("add_expense.html", form=request.form, categories=VALID_CATEGORIES)
+        flash("Expense added successfully.", "success")
+        return redirect(url_for('profile'))
+
+    return render_template("add_expense.html", form={}, categories=VALID_CATEGORIES)
 
 
 @app.route("/expenses/<int:id>/edit")
